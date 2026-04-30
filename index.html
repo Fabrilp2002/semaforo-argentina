@@ -177,13 +177,16 @@ let curFilter = "last";
 let curSort   = "dim";
 
 function applyUpdate() {
-  const d = CHART_DATA[curFilter][curSort];
+  const d   = CHART_DATA[curFilter][curSort];
+  const MAX = 36;
+  const y0  = d.y[0].map(s => s.length > MAX ? s.slice(0, MAX) + '…' : s);
   Plotly.restyle(DIV_ID, {
     x:          d.x,
-    y:          d.y,
+    y:          [y0, y0, y0, y0],
     text:       d.text,
     customdata: d.customdata,
   }, [0, 1, 2, 3]);
+  Plotly.relayout(DIV_ID, {'margin.l': 210});
 }
 
 function setFilter(f) {
